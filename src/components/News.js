@@ -1,6 +1,8 @@
 import React, { Component } from 'react'  //rce
 import NewsItem from './NewsItem';
 
+//order of execution --> constructor>render>componentDidMount
+
 export class News extends Component {
     articles = [
         {
@@ -51,6 +53,16 @@ export class News extends Component {
             loading: false
         }
     }
+
+    //lifecycle method
+    //will run after everything is rendered --> render method 
+    async componentDidMount(){
+        let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=8de7c0e3bf3d4b52a6eab37cdce09820";
+        let data = await fetch(url);
+        let parsedData = await data.json();
+        this.setState({articles:parsedData.articles})
+    }
+
     render() {
         return (
             <div className="container my-3">
@@ -58,13 +70,16 @@ export class News extends Component {
                 <div className="row">
                 {this.state.articles.map((element)=>{
                     return <div key={element.url} className="col-md-3">
-                    <NewsItem  title={element.title.slice(0,45)} description={element.description.slice(0,88)} imageUrl= {element.urlToImage} newsUrl={element.url} />
+                    <NewsItem  title={element.title?element.title.slice(0,45):""} description={element.description?element.description.slice(0,88):""} imageUrl= {element.urlToImage} newsUrl={element.url} />
                 </div>
                 })}
                 </div>
             </div>
+            
         )
+        
     }
+    
 }
 
 export default News
