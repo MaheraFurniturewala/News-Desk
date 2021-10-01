@@ -3,7 +3,6 @@ import NewsItem from './NewsItem';
 
 export class News extends Component {
     constructor() {
-
     }
     render() {
         return (
@@ -24,5 +23,6 @@ export class News extends Component {
         )
     }
 }
+
 
 export default News
